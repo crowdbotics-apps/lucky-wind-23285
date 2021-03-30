@@ -47,3 +47,22 @@ class User(AbstractUser):
 
     def get_absolute_url(self):
         return reverse("users:detail", kwargs={"username": self.username})
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(
+        "users.User", verbose_name=_(""), on_delete=models.CASCADE
+    )
+    phone_number = models.CharField(
+        _("Phone number"), max_length=17, null=True, blank=True
+    )
+
+    class Meta:
+        verbose_name = _("Profile")
+        verbose_name_plural = _("Profiles")
+
+    def __str__(self):
+        return self.user.name or self.user.email
+
+    def get_absolute_url(self):
+        return reverse("Profile_detail", kwargs={"pk": self.pk})
