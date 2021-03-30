@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.validators import RegexValidator
 from django.http import HttpRequest
 from django.utils.translation import ugettext_lazy as _
 from allauth.account import app_settings as allauth_settings
@@ -7,16 +8,28 @@ from allauth.utils import email_address_exists, generate_unique_username
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
 from rest_framework import serializers
+from rest_auth.models import TokenModel
 from rest_auth.serializers import PasswordResetSerializer
 from home.models import HomePage, CustomText
+from users.models import Profile
 
 User = get_user_model()
 
 
 class SignupSerializer(serializers.ModelSerializer):
+    phone_number = serializers.CharField(
+        label=_("Phone number"), write_only=True, required=False
+    )
+
     class Meta:
         model = User
-        fields = ("id", "name", "email", "password")
+        fields = (
+            "id",
+            "name",
+            "email",
+            "password",
+            "phone_number",
+        )
         extra_kwargs = {
             "password": {"write_only": True, "style": {"input_type": "password"}},
             "email": {
@@ -44,6 +57,14 @@ class SignupSerializer(serializers.ModelSerializer):
                 )
         return email
 
+    def validate_phone_number(self, phone_number):
+        phone_regex = RegexValidator(
+            regex=r"^\+?1?\d{9,15}$",
+            message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.",
+        )
+        phone_regex(phone_number)
+        return phone_number
+
     def create(self, validated_data):
         user = User(
             email=validated_data.get("email"),
@@ -54,6 +75,11 @@ class SignupSerializer(serializers.ModelSerializer):
         )
         user.set_password(validated_data.get("password"))
         user.save()
+
+        Profile.objects.create(
+            user=user, phone_number=validated_data.get("phone_number")
+        )
+
         request = self._get_request()
         setup_user_email(request, user, [])
         return user
@@ -85,3 +111,15 @@ class PasswordSerializer(PasswordResetSerializer):
     """Custom serializer for rest_auth to solve reset password error"""
 
     password_reset_form_class = ResetPasswordForm
+
+
+class TokenSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Token Model.
+    """
+
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = TokenModel
+        fields = ("key", "user")
