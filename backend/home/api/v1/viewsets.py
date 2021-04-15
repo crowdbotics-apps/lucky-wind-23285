@@ -8,6 +8,9 @@ from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
+from rest_auth.registration.views import SocialLoginView
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+
 from home.api.v1.serializers import (
     SignupSerializer,
     CustomTextSerializer,
@@ -52,3 +55,7 @@ class HomePageViewSet(ModelViewSet):
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = [IsAdminUser]
     http_method_names = ["get", "put", "patch"]
+
+
+class FacebookLogin(SocialLoginView):
+    adapter_class = FacebookOAuth2Adapter
