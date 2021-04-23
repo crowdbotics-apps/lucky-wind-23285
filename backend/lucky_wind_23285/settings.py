@@ -46,15 +46,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
-    "chat",
-    "chat_user_profile",
+    "corsheaders",
 ]
 LOCAL_APPS = [
+    "chat",
+    "chat_user_profile",
     "home",
     "users.apps.UsersConfig",
 ]
 THIRD_PARTY_APPS = [
-    "corsheaders",
     "rest_framework",
     "rest_framework.authtoken",
     "rest_auth",
@@ -64,6 +64,7 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.facebook",
     "django_extensions",
     "drf_yasg",
     "storages",
@@ -89,7 +90,10 @@ ROOT_URLCONF = "lucky_wind_23285.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            os.path.join(BASE_DIR, "templates"),
+            os.path.join(BASE_DIR, "templates", "allauth"),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -168,11 +172,13 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_VERIFICATION = "optional"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 ACCOUNT_UNIQUE_EMAIL = True
-LOGIN_REDIRECT_URL = "users:redirect"
+LOGIN_REDIRECT_URL = "/"
+OLD_PASSWORD_FIELD_ENABLED = True
+
 
 ACCOUNT_ADAPTER = "users.adapters.AccountAdapter"
 SOCIALACCOUNT_ADAPTER = "users.adapters.SocialAccountAdapter"
@@ -204,6 +210,7 @@ EMAIL_HOST_USER = env.str("SENDGRID_USERNAME", "")
 EMAIL_HOST_PASSWORD = env.str("SENDGRID_PASSWORD", "")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL", "")
 
 
 # AWS S3 config
@@ -249,3 +256,30 @@ if DEBUG or not (EMAIL_HOST_USER and EMAIL_HOST_PASSWORD):
             "You should setup `SENDGRID_USERNAME` and `SENDGRID_PASSWORD` env vars to send emails."
         )
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    "facebook": {
+        "METHOD": "oauth2",
+        "SDK_URL": "//connect.facebook.net/{locale}/sdk.js",
+        "SCOPE": ["email", "public_profile"],
+        "AUTH_PARAMS": {"auth_type": "reauthenticate"},
+        "INIT_PARAMS": {"cookie": True},
+        "FIELDS": [
+            "id",
+            "first_name",
+            "last_name",
+            "middle_name",
+            "name",
+            "name_format",
+            "picture",
+            "short_name",
+        ],
+        "EXCHANGE_TOKEN": True,
+        "LOCALE_FUNC": "path.to.callable",
+        "VERIFIED_EMAIL": False,
+        "VERSION": "v7.0",
+    },
+}
+
+CORS_ORIGIN_ALLOW_ALL = True
