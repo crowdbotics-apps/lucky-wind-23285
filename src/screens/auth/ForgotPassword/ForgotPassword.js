@@ -15,8 +15,7 @@ const deviceHeight = Dimensions.get('window').height
 
 
 @inject("userStore")
-
-export default class ForgotPassword extends Component {
+export default class ForgotPassword extends Component { 
 
   state = {
     email: "",
@@ -124,13 +123,6 @@ async forgot(){
                   />
                 </TouchableOpacity>
                 <View>
-                  {/* <Button
-                    text="Don't have account?"
-                    textColor={Theme.palette.fieldColor}
-                    radius={50}
-                    transparent
-                    onPress={()=>this.props.navigation.navigate("Login")}
-                  /> */}
                   <Button
                     text="Sign in"
                     textColor={Theme.palette.secondary}
