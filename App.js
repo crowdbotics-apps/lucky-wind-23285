@@ -1,29 +1,40 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {Provider as ReduxProvider} from 'react-redux';
+import { LogBox, View, Text, StyleSheet, Image, Animated, Easing, Dimensions } from 'react-native';
+import { Provider as ReduxProvider } from 'react-redux';
 
 import SplashScreen from './src/features/SplashScreen';
-import {store} from './src/store';
+import { store } from './src/store';
 import NavigatorProvider from './src/navigator/mainNavigator';
-import {setupHttpConfig} from './src/utils/http';
+import { setupHttpConfig } from './src/utils/http';
 import * as NavigationService from './src/navigator/NavigationService';
+
+import AnimatedWave from "react-native-animated-wave";
+import { ImageBackground } from 'react-native';
+import AppContainer from './src/navigator/mainNavigator';
+
+const deviceWidth = Dimensions.get('screen').width
+const deviceHeight = Dimensions.get('screen').height
+import { Provider, observer, inject } from "mobx-react";
+import { stores } from './src/mobx';
+
 
 export default class App extends React.Component {
   state = {
     isLoaded: false,
   };
 
-  async componentWillMount() {
-    /**
-     * add any aditional app config here,
-     * don't use blocking requests here like HTTP requests since they block UI feedback
-     * create HTTP requests and other blocking requests using redux saga
-     */
-    await this.loadAssets();
-    setupHttpConfig();
+
+  constructor() {
+    super()
+
   }
 
-  componentDidMount() {
+
+
+  async componentDidMount() {
+    await this.loadAssets();
+    console.disableYellowBox = true;
+    setupHttpConfig();
     /**
      * Read above commments above adding async requests here
      */
@@ -32,27 +43,27 @@ export default class App extends React.Component {
 
   loadAssets = async () => {
     // add any loading assets here
-    this.setState({isLoaded: true});
+    // setTimeout(() => {
+    this.setState({ isLoaded: true });
+    // }, 2000)
   };
 
   renderLoading = () => (
-    <View style={[styles.flex]}>
-      <Text>Loading</Text>
-    </View>
+    <Text>Loading...</Text>
   );
 
   renderApp = () => (
-    <ReduxProvider store={store}>
+    <Provider {...stores}>
       <NavigatorProvider
         style={styles.flex}
         ref={(nav) => {
           this.navigator = nav;
         }}>
         <View style={[styles.flex]}>
-          <SplashScreen />
+          <AppContainer />
         </View>
       </NavigatorProvider>
-    </ReduxProvider>
+    </Provider>
   );
 
   render = () =>
@@ -60,5 +71,17 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  flex: {flex: 1},
+  flex: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' },
+  circles: {
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    borderRadius: 1000
+  }
 });

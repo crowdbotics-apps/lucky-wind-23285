@@ -1,5 +1,6 @@
 export const appConfig = {
   // todo add library to handle env variables
+  baseUrl: "https://lucky-wind-23285.botics.co",
   emailAuthAPIEndPoint: "https://lucky-wind-23285.botics.co",
   defaultTimeout: 5000,
   pubPublishKey: 'pub-c-09038c51-029c-47a7-95f2-b6c7407afb12',

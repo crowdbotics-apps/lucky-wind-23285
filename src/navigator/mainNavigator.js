@@ -1,60 +1,66 @@
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import {createDrawerNavigator} from 'react-navigation-drawer';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator,StackViewStyleInterpolator } from 'react-navigation-stack';
+import React from 'react'
+import Login from '../screens/auth/Login/Login';
+import Register from '../screens/auth/Register/Register';
+import Welcome from '../screens/auth/Welcome/Welcome';
+import Home from '../screens/home/Home/Home';
+import ForgotPassword from '../screens/auth/ForgotPassword/ForgotPassword';
 
-import SplashScreen from "../features/SplashScreen";
-import SideMenu from './sideMenu';
+
+
+
+
 //@BlueprintImportInsertion
-import CopyOfCopyOfCopyOfBlankScreen17186233Navigator from '../features/CopyOfCopyOfCopyOfBlankScreen17186233/navigator';
-import CopyOfCopyOfCopyOfBlankScreen17186232Navigator from '../features/CopyOfCopyOfCopyOfBlankScreen17186232/navigator';
-import CopyOfCopyOfCopyOfBlankScreen17186231Navigator from '../features/CopyOfCopyOfCopyOfBlankScreen17186231/navigator';
-import CopyOfBlankScreen18186229Navigator from '../features/CopyOfBlankScreen18186229/navigator';
-import CopyOfCopyOfBlankScreen17186228Navigator from '../features/CopyOfCopyOfBlankScreen17186228/navigator';
-import CopyOfCopyOfBlankScreen17186226Navigator from '../features/CopyOfCopyOfBlankScreen17186226/navigator';
-import CopyOfCopyOfBlankScreen17186225Navigator from '../features/CopyOfCopyOfBlankScreen17186225/navigator';
-import CopyOfCopyOfBlankScreen17186224Navigator from '../features/CopyOfCopyOfBlankScreen17186224/navigator';
-import CopyOfBlankScreen17186158Navigator from '../features/CopyOfBlankScreen17186158/navigator';
-import CopyOfBlankScreen17186157Navigator from '../features/CopyOfBlankScreen17186157/navigator';
-import BlankScreen18185015Navigator from '../features/BlankScreen18185015/navigator';
-import BlankScreen17185014Navigator from '../features/BlankScreen17185014/navigator';
-import Settings184998Navigator from '../features/Settings184998/navigator';
 
 /**
  * new navigators can be imported here
  */
 
-const AppNavigator = {
 
-    //@BlueprintNavigationInsertion
-CopyOfCopyOfCopyOfBlankScreen17186233: { screen: CopyOfCopyOfCopyOfBlankScreen17186233Navigator },
-CopyOfCopyOfCopyOfBlankScreen17186232: { screen: CopyOfCopyOfCopyOfBlankScreen17186232Navigator },
-CopyOfCopyOfCopyOfBlankScreen17186231: { screen: CopyOfCopyOfCopyOfBlankScreen17186231Navigator },
-CopyOfBlankScreen18186229: { screen: CopyOfBlankScreen18186229Navigator },
-CopyOfCopyOfBlankScreen17186228: { screen: CopyOfCopyOfBlankScreen17186228Navigator },
-CopyOfCopyOfBlankScreen17186226: { screen: CopyOfCopyOfBlankScreen17186226Navigator },
-CopyOfCopyOfBlankScreen17186225: { screen: CopyOfCopyOfBlankScreen17186225Navigator },
-CopyOfCopyOfBlankScreen17186224: { screen: CopyOfCopyOfBlankScreen17186224Navigator },
-CopyOfBlankScreen17186158: { screen: CopyOfBlankScreen17186158Navigator },
-CopyOfBlankScreen17186157: { screen: CopyOfBlankScreen17186157Navigator },
-BlankScreen18185015: { screen: BlankScreen18185015Navigator },
-BlankScreen17185014: { screen: BlankScreen17185014Navigator },
-Settings184998: { screen: Settings184998Navigator },
-
-    /** new navigators can be added here */
-    SplashScreen: {
-      screen: SplashScreen
+const AuthStack = createStackNavigator({
+  Welcome:{
+    screen: Welcome,
+    navigationOptions:{
+      header:null
     }
-};
-
-const DrawerAppNavigator = createDrawerNavigator(
-  {
-    ...AppNavigator,
   },
-  {
-    contentComponent: SideMenu
+  Login:{
+    screen: Login,
+    navigationOptions:{
+      header:null
+    }
   },
-);
+  Register:{
+    screen: Register,
+    navigationOptions:{
+      header:null
+    }
+  },
+  ForgotPassword:{
+    screen: ForgotPassword,
+    navigationOptions:{
+      header:null
+    }
+  }
+})
 
-const AppContainer = createAppContainer(DrawerAppNavigator);
 
+const AppNavigator = createStackNavigator({
+  Home:{
+    screen: Home,
+    navigationOptions:{
+      header:null
+    }
+  }
+})
+
+
+const SwitchNavigator = createSwitchNavigator({
+  Auth: AuthStack,
+  App: AppNavigator,
+});
+
+const AppContainer = createAppContainer(SwitchNavigator);
+ 
 export default AppContainer;
