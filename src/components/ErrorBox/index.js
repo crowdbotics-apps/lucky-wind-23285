@@ -3,10 +3,10 @@ import { Text, View } from "react-native";
 
 import styles from "./styles";
 
-export default function ErrorBox({ errorText }) {
+export default function ErrorBox({ errorText, success }) {
   return (
     <View style={styles.container}>
-      <Text styles={styles.errorText}>
+      <Text style={{ textAlign: "center", color: success ? 'green' : 'red' }}>
         {errorText}
       </Text>
     </View>

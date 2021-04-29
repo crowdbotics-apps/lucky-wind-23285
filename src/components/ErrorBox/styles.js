@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
-  errorText: { textAlign: "center" }
+  errorText: { textAlign: "center", color:'red' }
 });
 
 export default styles;
