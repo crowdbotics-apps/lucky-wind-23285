@@ -23,7 +23,8 @@ export default class Register extends Component {
     password: "",
     confirmPassword: "",
     loading: false,
-    success: null
+    success: null,
+    error: null
   }
 
   async componentDidMount() {
@@ -94,10 +95,10 @@ export default class Register extends Component {
             }}>
               <CustomText
                 text={`Create Your${'\n'}Account`}
-                size={35}
+                size={30}
                 color={Theme.palette.primary}
                 semibold
-                style={{ marginBottom: "15%" }}
+                style={{ marginBottom: "2%" }}
               />
               {
                 (error || success) && (
@@ -156,7 +157,7 @@ export default class Register extends Component {
                 />
               </HorizontalContainer>
 
-              <HorizontalContainer style={{ marginTop: -10, width: "100%", position: 'absolute', bottom: 0 }}>
+              <HorizontalContainer style={{ marginTop: -10, width: "100%"}}>
                 <TouchableOpacity>
                   <Image
                     source={require('../../../assets/images/arrow_right_blue.png')}
