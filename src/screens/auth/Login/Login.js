@@ -83,7 +83,7 @@ async login(){
                 size={35}
                 color={Theme.palette.primary}
                 semibold
-                style={{marginBottom: "20%"}}
+                style={{marginBottom: "10%"}}
               />
 
               {
