@@ -5,7 +5,8 @@ const Theme = {
         black: "#000",
         white:"#fff",
         fieldColor:"#949494",
-        primaryLight:"#919EC2"
+        primaryLight:"#919EC2",
+        facebookBtn:"#1877F2"
     },
     spacing:{
         containerSpacing:20,

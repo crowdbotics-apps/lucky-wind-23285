@@ -13,6 +13,20 @@ PODS:
     - React-Core (= 0.62.0)
     - React-jsi (= 0.62.0)
     - ReactCommon/turbomodule/core (= 0.62.0)
+  - FBSDKCoreKit (9.0.1):
+    - FBSDKCoreKit/Basics (= 9.0.1)
+    - FBSDKCoreKit/Core (= 9.0.1)
+  - FBSDKCoreKit/Basics (9.0.1)
+  - FBSDKCoreKit/Core (9.0.1):
+    - FBSDKCoreKit/Basics
+  - FBSDKLoginKit (9.0.1):
+    - FBSDKLoginKit/Login (= 9.0.1)
+  - FBSDKLoginKit/Login (9.0.1):
+    - FBSDKCoreKit (~> 9.0.1)
+  - FBSDKShareKit (9.0.1):
+    - FBSDKShareKit/Share (= 9.0.1)
+  - FBSDKShareKit/Share (9.0.1):
+    - FBSDKCoreKit (~> 9.0.1)
   - Flipper (0.33.1):
     - Flipper-Folly (~> 2.1)
     - Flipper-RSocket (~> 1.0)
@@ -246,6 +260,20 @@ PODS:
   - React-jsinspector (0.62.0)
   - react-native-animated-wave (1.2.3):
     - React
+  - react-native-fbsdk-next (4.2.0):
+    - React
+    - react-native-fbsdk-next/Core (= 4.2.0)
+    - react-native-fbsdk-next/Login (= 4.2.0)
+    - react-native-fbsdk-next/Share (= 4.2.0)
+  - react-native-fbsdk-next/Core (4.2.0):
+    - FBSDKCoreKit (~> 9.0.1)
+    - React
+  - react-native-fbsdk-next/Login (4.2.0):
+    - FBSDKLoginKit (~> 9.0.1)
+    - React
+  - react-native-fbsdk-next/Share (4.2.0):
+    - FBSDKShareKit (~> 9.0.1)
+    - React
   - react-native-image-picker (1.1.0):
     - React
   - react-native-slider (3.0.3):
@@ -361,6 +389,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-animated-wave (from `../node_modules/react-native-animated-wave`)
+  - react-native-fbsdk-next (from `../node_modules/react-native-fbsdk-next`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - react-native-spinkit (from `../node_modules/react-native-spinkit`)
@@ -389,6 +418,9 @@ SPEC REPOS:
     - boost-for-react-native
     - CocoaAsyncSocket
     - CocoaLibEvent
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKShareKit
     - Flipper
     - Flipper-DoubleConversion
     - Flipper-Folly
@@ -435,6 +467,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-animated-wave:
     :path: "../node_modules/react-native-animated-wave"
+  react-native-fbsdk-next:
+    :path: "../node_modules/react-native-fbsdk-next"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-slider:
@@ -486,6 +520,9 @@ SPEC CHECKSUMS:
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   FBLazyVector: 545eccf4f6ef2de8fd450fd8a1edb3f913c7371a
   FBReactNativeSpec: 85c7f8347f4a6e911742228e89e245187afa298e
+  FBSDKCoreKit: fada1a6a0076724678993ff05a633848765ff18c
+  FBSDKLoginKit: d5ffe6d808897019ccf16feb6f0a7ab260bc5cd6
+  FBSDKShareKit: 6a85acb92eaf43a0b6dfa2ba6106eb74c7f10d30
   Flipper: 6c1f484f9a88d30ab3e272800d53688439e50f69
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
   Flipper-Folly: c12092ea368353b58e992843a990a3225d4533c3
@@ -507,6 +544,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 8bf0b2707f05865113415088c398a7f98c0cf546
   React-jsinspector: 8e5913c4c6c54f0d3f9c9fc630c465a89cded65d
   react-native-animated-wave: faae1a54a1064a3369adb83a37ce67d6c34dac3a
+  react-native-fbsdk-next: 641adea0e1fbc0aa384ad059aa98c8b649b34f21
   react-native-image-picker: 3637d63fef7e32a230141ab4660d3ceb773c824f
   react-native-slider: b733e17fdd31186707146debf1f04b5d94aa1a93
   react-native-spinkit: da294fd828216ad211fe36a5c14c1e09f09e62db
