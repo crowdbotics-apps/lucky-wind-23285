@@ -6,7 +6,7 @@ export default {
     async headers() {
         return await {
             Accept: "application/json",
-            "Content-Type": "application/json"
+            "Content-Type": "multipart/form-data"
         };
     },
     async post(url, data, header) {
@@ -30,7 +30,7 @@ export default {
             const res = await this.post("/api/v1/auth/login/", data);
             return res.json();
         } catch (error) {
-            
+            console.log("LOGIN ERROR : ", error)
             return error
         }
     },
