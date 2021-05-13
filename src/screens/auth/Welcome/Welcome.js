@@ -4,27 +4,24 @@ import FastImage from 'react-native-fast-image'
 import Button from "../../../components/Button";
 import { CenterContainer } from "../../../components/Container";
 import { Theme } from "../../../components/Theme/Theme";
-
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { LoginManager,AccessToken,
+  AuthenticationToken, } from "react-native-fbsdk-next";
 
 const deviceWidth = Dimensions.get('screen').width
 const deviceHeight = Dimensions.get('window').height - StatusBar.currentHeight
+import { inject, observer } from "mobx-react";
 
 import Circles from "./components/Circles";
 import { s, vs, ms, mvs } from 'react-native-size-matters';
 import { StorageUtils } from "../../../utils/storage";
 import { navigate } from "../../../navigator/NavigationService";
-
+import ErrorBox from "../../../components/ErrorBox";
+@inject("userStore")
 export default class Welcome extends Component {
   constructor() {
     super()
     this.logoSpringValue = new Animated.Value(0.3)
-    this.zeroImageSpringValue = new Animated.Value(270)
-    this.firstImageSpringValue = new Animated.Value(400)
-    this.secondImageSpringValue = new Animated.Value(530)
-    this.thirdImageSpringValue = new Animated.Value(660)
-    this.fourthImageSpringValue = new Animated.Value(790)
-    this.fifthImageSpringValue = new Animated.Value(920)
-
 
     this.logoPosition = new Animated.Value(0);
     this.circleOpacity = new Animated.Value(0.35);
@@ -32,7 +29,9 @@ export default class Welcome extends Component {
   }
 
   state = {
-    showSplash: true
+    showSplash: true,
+    loading:false,
+    error: null
   }
 
   spring() {
@@ -45,54 +44,7 @@ export default class Welcome extends Component {
       }
     ).start()
   }
-  zerotImageSpring() {
-    Animated.spring(this.zeroImageSpringValue, {
-      toValue: 320,
-      duration: 3000,
-      easing: Easing.linear
-    }).start()
-  }
-  firstImageSpring() {
-    Animated.spring(this.firstImageSpringValue, {
-      toValue: 450,
-      duration: 3000,
-      easing: Easing.linear
-    }).start()
-  }
-  secondImageSpring() {
-    Animated.spring(this.secondImageSpringValue, {
-      toValue: 580,
-      duration: 3000,
-      easing: Easing.linear
-    }).start()
-  }
-  thirdImageSpring() {
-    Animated.spring(this.thirdImageSpringValue, {
-      toValue: 710,
-      duration: 3000,
-      easing: Easing.linear
-    }).start()
-
-  }
-  fourthImageSpring() {
-    Animated.spring(this.fourthImageSpringValue, {
-      toValue: 840,
-      duration: 3000,
-      easing: Easing.linear
-    }).start()
-
-  }
-
-  fifthImageSpring() {
-    Animated.spring(this.fifthImageSpringValue, {
-      toValue: 970,
-      duration: 3000,
-      easing: Easing.linear
-    }).start()
-
-  }
-
-
+  
 
   async componentDidMount() {
 
@@ -113,32 +65,44 @@ export default class Welcome extends Component {
 
 
     this.spring()
-
-    setTimeout(() => {
-      this.zerotImageSpring()
-    }, 350)
-
-    setTimeout(() => {
-      this.firstImageSpring()
-    }, 480)
-
-    setTimeout(() => {
-      this.secondImageSpring()
-    }, 570)
-
-    setTimeout(() => {
-      this.thirdImageSpring()
-    }, 670)
-    setTimeout(() => {
-      this.fourthImageSpring()
-    }, 770)
-
-    setTimeout(() => {
-      this.fifthImageSpring()
-    }, 870)
   }
 
+  async sendFacebookRequest(token, code){
+    var formdata = new FormData();
+    formdata.append("access_token", token);
+    formdata.append("code", code);
 
+    this.setState({ loading: true })
+    var registerRes = await this.props.userStore.facebookLogin(formdata)
+    this.setState({ loading: false })
+    if (registerRes && registerRes.error) {
+      this.setState({ error: registerRes.message })
+    }
+  }
+
+  facebookLogin = async () => {
+    this.setState({ error: null })
+    try {
+      LoginManager.logOut()
+      const result = await LoginManager.logInWithPermissions(
+        ['public_profile']
+      );
+      console.log(result);
+
+      if (Platform.OS === 'ios') {
+        tokenResult = await AuthenticationToken.getAuthenticationTokenIOS();
+        console.log("IOS RESPONSE",tokenResult);
+        this.sendFacebookRequest(result?.authenticationToken, result?.nonce)
+      } else {
+        const result = await AccessToken.getCurrentAccessToken();        
+        this.sendFacebookRequest(result.accessToken, result.userID)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+
+  }
   moveLogoUp = () => {
     Animated.timing(this.logoPosition, {
       toValue: -150,
@@ -160,59 +124,19 @@ export default class Welcome extends Component {
 
   render() {
 
-    const { showSplash } = this.state
+    const { showSplash, error } = this.state
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1,backgroundColor:'#F4F4F4' }}>
         <Animated.View style={{ 
           marginTop: this.logoPosition,
           height: deviceHeight,
-          backgroundColor: "#fff",
+          backgroundColor: "#F4F4F4",
           alignItems: 'center',
-          justifyContent: 'center' 
+          justifyContent: 'center',
           }}>
 
-          <Circles
-            width={1230}
-            height={1230}
-            elevation={5.2}
-          />
-          <Circles
-            width={1110}
-            height={1110}
-            elevation={5.3}
-          />
-          <Circles
-            width={this.fifthImageSpringValue}//970
-            height={this.fifthImageSpringValue}
-            elevation={5.4}
-          />
-          <Circles
-            width={this.fourthImageSpringValue}//840
-            height={this.fourthImageSpringValue}
-            elevation={5.5}
-          />
-          <Circles
-            width={this.thirdImageSpringValue}//710
-            height={this.thirdImageSpringValue}
-            elevation={5.6}
-          />
-
-          <Circles
-            width={this.secondImageSpringValue}//580
-            height={this.secondImageSpringValue}
-            elevation={5.7}
-          /> 
-          <Circles
-            width={this.firstImageSpringValue}
-            height={this.firstImageSpringValue}
-            elevation={5.8}
-          />
-          <Circles
-            width={this.zeroImageSpringValue}
-            height={this.zeroImageSpringValue}
-            elevation={5.9}
-          />
+          
           <Animated.Image
             source={require('../../../assets/images/vinologo.png')}
             style={{
@@ -234,25 +158,40 @@ export default class Welcome extends Component {
           opacity: this.buttonOpacity,
           alignItems: 'center'
         }}>
+          {
+              error && (
+                <ErrorBox errorText={error}/>
+              )
+            }
           <Button
             text="Sign in"
-            textColor={Theme.palette.primary}
-            width="45%"
+            textColor={Theme.palette.white}
+            width="80%"
             radius={50}
-            transparent
-            outline
-            outlineColor={Theme.palette.primaryLight}
+            bgColor={Theme.palette.primary}
             onPress={() => this.props.navigation.navigate("Login")}
+            style={{ paddingVertical: ms(10), marginBottom: 15 }}
           />
           <Button
             text="Sign up"
-            textColor={Theme.palette.secondary}
-            width="45%"
+            textColor={Theme.palette.white}
+            width="80%"
             radius={50}
-            transparent
-            underline
+            bgColor={Theme.palette.secondary}
             onPress={() => this.props.navigation.navigate("Register")}
-
+            style={{ paddingVertical: ms(10), marginBottom: 15 }}
+          />
+          <Button
+            text="Sign in with Facebook"
+            textColor={Theme.palette.white}
+            width="80%"
+            radius={50}
+            bgColor={Theme.palette.facebookBtn}
+            onPress={() => this.props.navigation.navigate("Register")}
+            style={{ paddingVertical: ms(10), marginBottom: 15 }}
+            icon={(<Icon name="facebook" color="#fff" size={ms(25)} />)}
+            onPress={()=>this.facebookLogin()}
+            loading={this.state.loading}
           />
         </Animated.View>
       </View>

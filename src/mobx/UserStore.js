@@ -42,6 +42,23 @@ export class UserStore {
             return { error: true, message: "Sorry something went wrong, please try again." }
         }
     }
+    @action async facebookLogin(data) {
+        try {
+            let response = await Auth.facebookLogin(data)
+            console.log("FACEBOOK RESPONSE : ", response)
+            if(response && response.key){
+                StorageUtils.setAccessToken(response.key);
+                navigate("Home")
+                return {error: false, message: ""}
+            }else{
+                var serverError = getServerError(response)
+                return { error: true, message: serverError || "Sorry something went wrong, please try again." }
+            }
+        } catch (e) {
+            console.log("NETWORK ERROR : ", e)
+            return { error: true, message: "Sorry something went wrong, please try again." }
+        }
+    }
     @action async forgot(data) {
         try {
             let response = await Auth.forgot(data)

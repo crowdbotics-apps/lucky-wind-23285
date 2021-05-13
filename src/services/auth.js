@@ -42,5 +42,14 @@ export default {
             
             return error
         }
+    },
+    async facebookLogin(data) {
+        try {
+            const res = await this.post("/api/v1/auth/facebook/", data);
+            return res.json();
+        } catch (error) {
+            
+            return error
+        }
     }
 };
