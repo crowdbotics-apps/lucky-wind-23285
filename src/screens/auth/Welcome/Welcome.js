@@ -84,14 +84,13 @@ export default class Welcome extends Component {
     this.setState({ error: null })
     try {
       LoginManager.logOut()
+      LoginManager.setLoginBehavior("web_only")
       const result = await LoginManager.logInWithPermissions(
         ['public_profile']
       );
-      console.log(result);
 
       if (Platform.OS === 'ios') {
         tokenResult = await AuthenticationToken.getAuthenticationTokenIOS();
-        console.log("IOS RESPONSE",tokenResult);
         this.sendFacebookRequest(result?.authenticationToken, result?.nonce)
       } else {
         const result = await AccessToken.getCurrentAccessToken();        
@@ -187,9 +186,8 @@ export default class Welcome extends Component {
             width="80%"
             radius={50}
             bgColor={Theme.palette.facebookBtn}
-            onPress={() => this.props.navigation.navigate("Register")}
             style={{ paddingVertical: ms(10), marginBottom: 15 }}
-            icon={(<Icon name="facebook" color="#fff" size={ms(25)} />)}
+            icon={(<Icon name="facebook" color="#fff" size={ms(20)} style={{ marginRight:10 }} />)}
             onPress={()=>this.facebookLogin()}
             loading={this.state.loading}
           />

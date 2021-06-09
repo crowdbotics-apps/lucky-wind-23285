@@ -13,10 +13,10 @@ const styles = StyleSheet.create({
     borderBottomColor: Theme.palette.fieldColor,
     borderBottomWidth: 1,
     width:"100%",
-    height: 40,
     color:"#000",
     paddingLeft: 0,
-    fontFamily: Theme.fontFamily.regular
+    fontFamily: Theme.fontFamily.regular,
+    paddingVertical: 10
   },
   iconStyle:{
       position:'absolute',
