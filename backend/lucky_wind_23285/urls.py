@@ -23,18 +23,16 @@ from drf_yasg import openapi
 from home.api.v1.viewsets import FacebookLogin
 
 urlpatterns = [
-    # path("", include("home.urls")),
+    path("", include("home.urls")),
     path("accounts/", include("allauth.urls")),
     # path("api/v1/", include("home.api.v1.urls")),
     re_path(r"admin/?", admin.site.urls),
-    # path("users/", include("users.urls", namespace="users")),
     path("api/v1/auth/", include("rest_auth.urls")),
     # Override email confirm to use allauth's HTML view instead of rest_auth's API view
     path("api/v1/auth/registration/account-confirm-email/<str:key>/", confirm_email),
     path("api/v1/auth/registration/", include("rest_auth.registration.urls")),
     path("api/v1/auth/facebook/", FacebookLogin.as_view(), name="fb_login"),
     path("api/v1/", include("chat.api.v1.urls")),
-    # path("chat/", include("chat.urls")),
     path("api/v1/", include("chat_user_profile.api.v1.urls")),
     # path("chat_user_profile/", include("chat_user_profile.urls")),
     path("api/v1/", include("users.api.v1.urls")),
