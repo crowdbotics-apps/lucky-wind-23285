@@ -27,3 +27,7 @@ def home(request):
         "packages": packages,
     }
     return render(request, "home/index.html", context)
+
+
+def emailconfirmed(request):
+    return render(request, "users/email_confirm.html")

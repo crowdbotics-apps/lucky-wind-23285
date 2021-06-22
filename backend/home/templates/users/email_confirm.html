@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% load staticfiles %} {% load bootstrap4 %} {% load
+static %} {% block title %}User: {{request.user.username}}{% endblock %}
+{% block content %}
+<div class="jumbotron mt-5 editable">
+  <div class="mt-0 mb-5 col-xs-1" align="center">
+    <div>
+      <p>Your email address has been confirmed successfully.</p>
+    </div>
+    <div>
+      <p>Please open the app to login</p>
+    </div>
+  </div>
+</div>
+{% endblock content %}

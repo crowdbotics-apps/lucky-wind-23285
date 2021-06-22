@@ -177,6 +177,8 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 ACCOUNT_UNIQUE_EMAIL = True
 LOGIN_REDIRECT_URL = "/"
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = "/email-confirmed"
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "/email-confirmed"
 OLD_PASSWORD_FIELD_ENABLED = True
 
 
@@ -283,3 +285,21 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
+TWILIO_ACCOUNT_SID = env.str("TWILIO_ACCOUNT_SID")
+TWILIO_AUTH_TOKEN = env.str("TWILIO_AUTH_TOKEN")
+TWILIO_NUMBER = "+17244367059"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKED": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [env.str("REDIS_URL", "redis://redis:6379")],
+        },
+    },
+}
+
+CELERY_BROKER_URL = env.str("REDIS_URL", "redis://redis:6379")
+CELERY_RESULT_BACKEND = env.str("REDIS_URL", "redis://redis:6379")
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TASK_sERIALIZER = "json"

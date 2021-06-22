@@ -12,6 +12,7 @@ from rest_auth.models import TokenModel
 from rest_auth.serializers import PasswordResetSerializer
 from home.models import HomePage, CustomText
 from users.models import Profile
+from utils.sms import send_sms
 
 User = get_user_model()
 
@@ -76,9 +77,10 @@ class SignupSerializer(serializers.ModelSerializer):
         user.set_password(validated_data.get("password"))
         user.save()
 
-        Profile.objects.create(
-            user=user, phone_number=validated_data.get("phone_number")
-        )
+        phone_number = validated_data.get("phone_number", None)
+        if phone_number:
+            Profile.objects.create(user=user, phone_number=phone_number)
+            send_sms(phone_number=phone_number)
 
         request = self._get_request()
         setup_user_email(request, user, [])
