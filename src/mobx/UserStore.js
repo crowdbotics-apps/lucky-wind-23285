@@ -34,7 +34,9 @@ export class UserStore {
                 navigate("Home")
                 return {error: false, message: ""}
             }else{
+                console.log("response error : ", response)
                 var serverError = getServerError(response)
+                console.log("SERVER ERROR : ", serverError)
                 return { error: true, message: serverError || "Sorry something went wrong, please try again." }
             }
         } catch (e) {

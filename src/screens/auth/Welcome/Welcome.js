@@ -5,8 +5,10 @@ import Button from "../../../components/Button";
 import { CenterContainer } from "../../../components/Container";
 import { Theme } from "../../../components/Theme/Theme";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { LoginManager,AccessToken,
-  AuthenticationToken, } from "react-native-fbsdk-next";
+import {
+  LoginManager, AccessToken,
+  AuthenticationToken,
+} from "react-native-fbsdk-next";
 
 const deviceWidth = Dimensions.get('screen').width
 const deviceHeight = Dimensions.get('window').height - StatusBar.currentHeight
@@ -17,6 +19,8 @@ import { s, vs, ms, mvs } from 'react-native-size-matters';
 import { StorageUtils } from "../../../utils/storage";
 import { navigate } from "../../../navigator/NavigationService";
 import ErrorBox from "../../../components/ErrorBox";
+import CustomText from "../../../components/Text";
+
 @inject("userStore")
 export default class Welcome extends Component {
   constructor() {
@@ -30,7 +34,7 @@ export default class Welcome extends Component {
 
   state = {
     showSplash: true,
-    loading:false,
+    loading: false,
     error: null
   }
 
@@ -44,7 +48,7 @@ export default class Welcome extends Component {
       }
     ).start()
   }
-  
+
 
   async componentDidMount() {
 
@@ -67,7 +71,7 @@ export default class Welcome extends Component {
     this.spring()
   }
 
-  async sendFacebookRequest(token, code){
+  async sendFacebookRequest(token, code) {
     var formdata = new FormData();
     formdata.append("access_token", token);
     formdata.append("code", code);
@@ -84,6 +88,7 @@ export default class Welcome extends Component {
     this.setState({ error: null })
     try {
       LoginManager.logOut()
+      LoginManager.setLoginBehavior("web_only")
       const result = await LoginManager.logInWithPermissions(
         ['public_profile']
       );
@@ -91,10 +96,10 @@ export default class Welcome extends Component {
 
       if (Platform.OS === 'ios') {
         tokenResult = await AuthenticationToken.getAuthenticationTokenIOS();
-        console.log("IOS RESPONSE",tokenResult);
+        console.log("IOS RESPONSE", tokenResult);
         this.sendFacebookRequest(result?.authenticationToken, result?.nonce)
       } else {
-        const result = await AccessToken.getCurrentAccessToken();        
+        const result = await AccessToken.getCurrentAccessToken();
         this.sendFacebookRequest(result.accessToken, result.userID)
       }
     } catch (error) {
@@ -127,16 +132,16 @@ export default class Welcome extends Component {
     const { showSplash, error } = this.state
 
     return (
-      <View style={{ flex: 1,backgroundColor:'#F4F4F4' }}>
-        <Animated.View style={{ 
+      <View style={{ flex: 1, backgroundColor: '#F4F4F4' }}>
+        <Animated.View style={{
           marginTop: this.logoPosition,
           height: deviceHeight,
           backgroundColor: "#F4F4F4",
           alignItems: 'center',
           justifyContent: 'center',
-          }}>
+        }}>
 
-          
+
           <Animated.Image
             source={require('../../../assets/images/vinologo.png')}
             style={{
@@ -154,15 +159,15 @@ export default class Welcome extends Component {
         <Animated.View style={{
           position: 'absolute',
           width: "100%",
-          bottom: 50,
+          bottom: 20,
           opacity: this.buttonOpacity,
           alignItems: 'center'
         }}>
           {
-              error && (
-                <ErrorBox errorText={error}/>
-              )
-            }
+            error && (
+              <ErrorBox errorText={error} />
+            )
+          }
           <Button
             text="Sign in"
             textColor={Theme.palette.white}
@@ -189,9 +194,18 @@ export default class Welcome extends Component {
             bgColor={Theme.palette.facebookBtn}
             onPress={() => this.props.navigation.navigate("Register")}
             style={{ paddingVertical: ms(10), marginBottom: 15 }}
-            icon={(<Icon name="facebook" color="#fff" size={ms(25)} />)}
-            onPress={()=>this.facebookLogin()}
+            icon={(<Icon style={{ marginRight: 10 }} name="facebook" color="#fff" size={ms(25)} />)}
+            onPress={() => this.facebookLogin()}
             loading={this.state.loading}
+          />
+
+          <Button
+            text="Contact Us"
+            textColor={Theme.palette.primary}
+            width="50%"
+            regular
+            transparent
+            onPress={() => { this.props.navigation.navigate("Contact") }}
           />
         </Animated.View>
       </View>

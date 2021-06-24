@@ -19,8 +19,8 @@ const deviceHeight = Dimensions.get('window').height
 export default class Login extends Component {
 
   state = {
-    email: "",
-    password: "",
+    email: "Surafelbm@gmail.com",
+    password: "Test@123",
     error: null
   }
 

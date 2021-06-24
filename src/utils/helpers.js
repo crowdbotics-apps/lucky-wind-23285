@@ -1,3 +1,5 @@
+import { ContentContainer } from "../components/Container";
+
 export const getDisplayNameFromFieldName = (name) => {
     switch (name) {
       case 'new_password1':
@@ -12,6 +14,9 @@ export const getDisplayNameFromFieldName = (name) => {
 };
 
 export const getServerError = (errorObject, errorMessage) => {
+  console.log("errorObject",errorObject.TypeError)
+
+
     if (errorObject) {
       try {
         if (typeof errorObject === 'string') {
@@ -19,6 +24,7 @@ export const getServerError = (errorObject, errorMessage) => {
         }
 
         const fields = Object.keys(errorObject);
+        console.log('FIELDS : ', fields)
         const messages = [];
 
         fields.forEach((fieldName) => {
@@ -34,6 +40,10 @@ export const getServerError = (errorObject, errorMessage) => {
             }
           } else {
             const displayName = getDisplayNameFromFieldName(fieldName);
+            console.log("displayName",displayName)
+            if(displayName === "sourceURL"){
+              return "Network error, please try again"
+            }
             if (typeof message === 'string') {
               messages.push(!Number.isNaN(Number(displayName)) ? message : `${message} (${displayName})`);
             } else if (typeof message === 'object') {

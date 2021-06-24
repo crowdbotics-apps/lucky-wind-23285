@@ -6,6 +6,8 @@ import Register from '../screens/auth/Register/Register';
 import Welcome from '../screens/auth/Welcome/Welcome';
 import Home from '../screens/home/Home/Home';
 import ForgotPassword from '../screens/auth/ForgotPassword/ForgotPassword';
+import Contact from '../screens/auth/Contact/Contact';
+
 
 
 
@@ -39,6 +41,12 @@ const AuthStack = createStackNavigator({
   },
   ForgotPassword:{
     screen: ForgotPassword,
+    navigationOptions:{
+      header:null
+    }
+  },
+  Contact:{
+    screen: Contact,
     navigationOptions:{
       header:null
     }

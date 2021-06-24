@@ -3,7 +3,7 @@ import React from "react";
 import { Text, View, TouchableOpacity, Animated } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import LinearGradient from 'react-native-linear-gradient';
+
 import { s, vs, ms, mvs } from 'react-native-size-matters';
 import { Theme } from "../../../../components/Theme/Theme";
 import { ImageBackground } from "react-native";
