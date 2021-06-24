@@ -58,7 +58,7 @@ export default function Button({
               fontFamily: regular
                 ? Theme.fontFamily.regular
                 : Theme.fontFamily.medium,
-              fontSize: 17,
+              fontSize: 14,
               alignSelf: alignRight ? 'flex-end' : 'center',
             }}>
             {text}
@@ -72,7 +72,7 @@ export default function Button({
             fontFamily: regular
               ? Theme.fontFamily.regular
               : Theme.fontFamily.medium,
-            fontSize: 17,
+            fontSize: 14,
             alignSelf: alignRight ? 'flex-end' : 'center',
           }}>
           {text}
