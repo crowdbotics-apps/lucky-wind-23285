@@ -8,6 +8,7 @@ import ErrorBox from "../../../components/ErrorBox";
 import CustomText from "../../../components/Text";
 import { Theme } from "../../../components/Theme/Theme";
 import { inject, observer } from "mobx-react";
+import { NavigationEvents } from 'react-navigation';
 
 const deviceWidth = Dimensions.get('screen').width
 const deviceHeight = Dimensions.get('window').height
@@ -32,7 +33,17 @@ export default class Register extends Component {
 
   }
 
+  validateEmail(emailAdress) {
+    let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (emailAdress.match(regexEmail)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   async signup() {
+    this.props.navigation.navigate("Terms")
     this.setState({ error: null, success: null })
     const { name, email, password, confirmPassword } = this.state
 
@@ -40,20 +51,21 @@ export default class Register extends Component {
       this.setState({ error: "Please enter your name" })
     } else {
       if (email === "") {
-        this.setState({ error: "Please enter your email" })
-      }else{
-        if(password === ""){
+        this.setState({ error: "Please enter your email or phone" })
+      } else {
+        if (password === "") {
           this.setState({ error: "Please enter your password" })
-        }else{
-          if(confirmPassword === ""){
+        } else {
+          if (confirmPassword === "") {
             this.setState({ error: "Please confirm your password" })
-          }else{
-            if(password !== confirmPassword){
+          } else {
+            if (password !== confirmPassword) {
               this.setState({ error: "Your passwords don't match, please check again." })
-            }else{
+            } else {
               var formdata = new FormData();
               formdata.append("name", name);
               formdata.append("email", email);
+              formdata.append("phone", email);
               formdata.append("password", password);
 
               this.setState({ loading: true })
@@ -62,7 +74,7 @@ export default class Register extends Component {
               console.log("RES : ", registerRes)
               if (registerRes && registerRes.error) {
                 this.setState({ error: registerRes.message })
-              }else{
+              } else {
                 this.setState({ success: registerRes.message })
               }
             }
@@ -81,6 +93,9 @@ export default class Register extends Component {
 
     return (
       <ScrollView style={{ flex: 1 }}>
+        <NavigationEvents
+          onDidBlur={payload => { this.setState({ error: null }) }}
+        />
         <FastImage
           source={require('../../../assets/images/register_bg.png')}
           style={{
@@ -157,7 +172,7 @@ export default class Register extends Component {
                 />
               </HorizontalContainer>
 
-              <HorizontalContainer style={{ marginTop: -10, width: "100%"}}>
+              <HorizontalContainer style={{ marginTop: -10, width: "100%" }}>
                 <TouchableOpacity>
                   <Image
                     source={require('../../../assets/images/arrow_right_blue.png')}

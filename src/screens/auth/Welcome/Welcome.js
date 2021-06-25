@@ -95,10 +95,7 @@ export default class Welcome extends Component {
 
       if (Platform.OS === 'ios') {
         tokenResult = await AuthenticationToken.getAuthenticationTokenIOS();
-<<<<<<< HEAD
         console.log("IOS RESPONSE", tokenResult);
-=======
->>>>>>> 3d4f942e50e7f701d2b5bcacf5c02510a6274340
         this.sendFacebookRequest(result?.authenticationToken, result?.nonce)
       } else {
         const result = await AccessToken.getCurrentAccessToken();

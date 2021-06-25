@@ -7,6 +7,8 @@ import Welcome from '../screens/auth/Welcome/Welcome';
 import Home from '../screens/home/Home/Home';
 import ForgotPassword from '../screens/auth/ForgotPassword/ForgotPassword';
 import Contact from '../screens/auth/Contact/Contact';
+import Terms from '../screens/auth/Terms/Terms';
+
 
 
 
@@ -47,6 +49,12 @@ const AuthStack = createStackNavigator({
   },
   Contact:{
     screen: Contact,
+    navigationOptions:{
+      header:null
+    }
+  },
+  Terms:{
+    screen: Terms,
     navigationOptions:{
       header:null
     }

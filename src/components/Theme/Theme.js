@@ -6,7 +6,8 @@ const Theme = {
         white:"#fff",
         fieldColor:"#949494",
         primaryLight:"#919EC2",
-        facebookBtn:"#1877F2"
+        facebookBtn:"#1877F2",
+        muteText: "#A2A2A2"
     },
     spacing:{
         containerSpacing:20,

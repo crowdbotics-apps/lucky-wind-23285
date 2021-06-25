@@ -9,6 +9,7 @@ import ErrorBox from "../../../components/ErrorBox";
 import CustomText from "../../../components/Text";
 import { Theme } from "../../../components/Theme/Theme";
 import { inject, observer } from "mobx-react";
+import { NavigationEvents } from 'react-navigation';
 
 const deviceWidth = Dimensions.get('screen').width
 const deviceHeight = Dimensions.get('window').height
@@ -19,8 +20,8 @@ const deviceHeight = Dimensions.get('window').height
 export default class Login extends Component {
 
   state = {
-    email: "Surafelbm@gmail.com",
-    password: "Test@123",
+    email: "",
+    password: "",
     error: null
   }
 
@@ -64,7 +65,9 @@ async login(){
 
     return (
       <ScrollView style={{ flex:1 }}>
-
+          <NavigationEvents
+              onDidBlur={payload => { this.setState({ error: null }) }}
+          />
         <FastImage
           source={require('../../../assets/images/login_bg.png')}
           style={{
