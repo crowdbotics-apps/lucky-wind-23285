@@ -49,10 +49,9 @@ INSTALLED_APPS = [
     "corsheaders",
 ]
 LOCAL_APPS = [
-    "chat",
-    "chat_user_profile",
     "home",
     "users.apps.UsersConfig",
+    "friends",
 ]
 THIRD_PARTY_APPS = [
     "rest_framework",
@@ -198,6 +197,8 @@ REST_FRAMEWORK = {
 REST_AUTH_SERIALIZERS = {
     # Replace password reset serializer to fix 500 error
     "PASSWORD_RESET_SERIALIZER": "home.api.v1.serializers.PasswordSerializer",
+    "USER_DETAILS_SERIALIZER": "users.api.v1.serializers.UserSerializer",
+    "TOKEN_SERIALIZER": "home.api.v1.serializers.TokenSerializer",
 }
 REST_AUTH_REGISTER_SERIALIZERS = {
     # Use custom serializer that has no username and matches web signup
