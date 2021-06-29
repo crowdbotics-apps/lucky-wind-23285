@@ -1,8 +1,15 @@
-from django.conf import settings
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager as DjangoUserManager
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+from django_extensions.db.models import TimeStampedModel
+
+from home.utils import get_upload_path
+
+
+class UserManager(DjangoUserManager):
+    def active(self):
+        return self.filter(is_active=True)
 
 
 class User(AbstractUser):
@@ -45,16 +52,36 @@ class User(AbstractUser):
         auto_now=True,
     )
 
+    objects = UserManager()
+
     def get_absolute_url(self):
         return reverse("users:detail", kwargs={"username": self.username})
 
 
-class Profile(models.Model):
+class Profile(TimeStampedModel):
     user = models.OneToOneField(
-        "users.User", verbose_name=_(""), on_delete=models.CASCADE
+        "users.User",
+        verbose_name=_("User"),
+        related_name="profile",
+        on_delete=models.CASCADE,
     )
     phone_number = models.CharField(
-        _("Phone number"), max_length=17, null=True, blank=True
+        _("Phone number"),
+        max_length=17,
+        null=True,
+        blank=True,
+    )
+    profile_picture = models.FileField(
+        _("Profile Picture"),
+        upload_to=get_upload_path,
+        blank=True,
+        null=True,
+    )
+    bio = models.CharField(
+        _("Bio"),
+        max_length=250,
+        null=True,
+        blank=True,
     )
 
     class Meta:
@@ -63,6 +90,3 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.name or self.user.email
-
-    def get_absolute_url(self):
-        return reverse("Profile_detail", kwargs={"pk": self.pk})
