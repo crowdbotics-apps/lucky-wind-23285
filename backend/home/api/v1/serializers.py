@@ -34,7 +34,7 @@ class SignupSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "password": {"write_only": True, "style": {"input_type": "password"}},
             "email": {
-                "required": True,
+                "required": False,
                 "allow_blank": False,
             },
         }
