@@ -27,14 +27,14 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     # path("api/v1/", include("home.api.v1.urls")),
     re_path(r"admin/?", admin.site.urls),
-    path("api/v1/auth/", include("rest_auth.urls")),
+    # path("api/v1/auth/", include("rest_auth.urls")),
     # Override email confirm to use allauth's HTML view instead of rest_auth's API view
     path("api/v1/auth/registration/account-confirm-email/<str:key>/", confirm_email),
     path("api/v1/auth/registration/", include("rest_auth.registration.urls")),
     path("api/v1/auth/facebook/", FacebookLogin.as_view(), name="fb_login"),
     path("api/v1/users/", include("users.api.v1.urls")),
     path("api/v1/", include("friends.api.v1.urls")),
-    # path("home/", include("home.urls")),
+    path("api/v1/auth/", include("home.api.v1.urls")),
 ]
 
 admin.site.site_header = "Lucky Wind"
