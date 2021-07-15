@@ -52,6 +52,7 @@ LOCAL_APPS = [
     "home",
     "users.apps.UsersConfig",
     "friends",
+    "video_content",
 ]
 THIRD_PARTY_APPS = [
     "rest_framework",

@@ -35,6 +35,7 @@ urlpatterns = [
     path("api/v1/users/", include("users.api.v1.urls")),
     path("api/v1/", include("friends.api.v1.urls")),
     path("api/v1/auth/", include("home.api.v1.urls")),
+    path("api/v1/", include("video_content.api.v1.urls")),
 ]
 
 admin.site.site_header = "Lucky Wind"
