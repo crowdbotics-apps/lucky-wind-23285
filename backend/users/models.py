@@ -1,6 +1,5 @@
 import random
 import string
-import datetime
 
 from django.contrib.auth.models import AbstractUser, UserManager as DjangoUserManager
 from django.db import models
