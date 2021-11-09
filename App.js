@@ -23,7 +23,6 @@ export default class App extends React.Component {
     isLoaded: false,
   };
 
-
   constructor() {
     super()
 

@@ -37,6 +37,7 @@ export default {
     async forgot(data) {
         try {
             const res = await this.post("/api/v1/auth/password/reset/", data);
+            console.log("FORGOT RESPONSE : ", res)
             return res.json();
         } catch (error) {
             

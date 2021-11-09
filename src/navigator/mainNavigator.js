@@ -1,5 +1,6 @@
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator,StackViewStyleInterpolator } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 import React from 'react'
 import Login from '../screens/auth/Login/Login';
 import Register from '../screens/auth/Register/Register';
@@ -8,6 +9,16 @@ import Home from '../screens/home/Home/Home';
 import ForgotPassword from '../screens/auth/ForgotPassword/ForgotPassword';
 import Contact from '../screens/auth/Contact/Contact';
 import Terms from '../screens/auth/Terms/Terms';
+import PhoneOtp from '../screens/auth/PhoneOtp/PhoneOtp';
+import BottomMenu from './BottomMenu';
+
+import Feed from '../screens/home/Feed/Feed';
+import Video from '../screens/home/Video/Video';
+import Profile from '../screens/home/Profile/Profile';
+
+
+
+
 
 
 
@@ -58,11 +69,15 @@ const AuthStack = createStackNavigator({
     navigationOptions:{
       header:null
     }
+  },
+  PhoneOtp:{
+    screen: PhoneOtp,
+    navigationOptions:{
+      header: null
+    }
   }
 })
-
-
-const AppNavigator = createStackNavigator({
+const HomeStack = createStackNavigator({
   Home:{
     screen: Home,
     navigationOptions:{
@@ -70,11 +85,65 @@ const AppNavigator = createStackNavigator({
     }
   }
 })
+const FeedStack = createStackNavigator({
+  Feed:{
+    screen: Feed,
+    navigationOptions:{
+      header:null
+    }
+  },
+  Profile:{
+    screen: Profile,
+    navigationOptions:{
+      header:null
+    }
+  }
+})
+
+const VideoStack = createStackNavigator({
+  Video:{
+    screen: Video,
+    navigationOptions:{
+      header:null
+    }
+  }
+})
+
+const AppNavigator = createStackNavigator({
+  Feed:{
+    screen: FeedStack,
+    navigationOptions:{
+      header:null
+    }
+  },
+  Home:{
+    screen: HomeStack,
+    navigationOptions:{
+      header:null
+    }
+  },
+  Video:{
+    screen: VideoStack,
+    navigationOptions:{
+      header:null
+    }
+  }
+  
+})
+
+const TabBarAppNavigator = createBottomTabNavigator(
+  {
+    Home: AppNavigator
+  },
+  {
+    tabBarComponent:({navigation}) => <BottomMenu navigation={navigation}/>
+  },
+);
 
 
 const SwitchNavigator = createSwitchNavigator({
   Auth: AuthStack,
-  App: AppNavigator,
+  App: TabBarAppNavigator,
 });
 
 const AppContainer = createAppContainer(SwitchNavigator);

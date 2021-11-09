@@ -29,8 +29,8 @@ export class UserStore {
         try {
             let response = await Auth.login(data)
             console.log("LOGIN RESPONSE : ", response)
-            if(response && response.key){
-                StorageUtils.setAccessToken(response.key);
+            if(response && response.token){
+                StorageUtils.setAccessToken(response.token);
                 navigate("Home")
                 return {error: false, message: ""}
             }else{
